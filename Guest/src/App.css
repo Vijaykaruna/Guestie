@@ -418,7 +418,6 @@
 }
 
 @media (max-width: 576px) {
-  .guest-brand span { display: none; }
   .guest-topbar { align-items: flex-start; }
   .guest-actions { gap: 6px; }
   .guest-outline-btn { padding: 9px 10px; font-size: .88rem; }

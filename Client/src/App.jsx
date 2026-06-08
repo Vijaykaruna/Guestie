@@ -8,7 +8,6 @@ import LogIn from "./pages/Authentication/LogIn.jsx";
 import SignUp from "./pages/Authentication/SignUp.jsx";
 
 import MainPage from "./pages/MainPage/MainPage.jsx";
-// import Guest from "./pages/Guest/Guest.jsx";
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/guest/home/:userId" element={<Guest />} /> */}
 
         {/* PROTECTED ROUTES */}
         <Route

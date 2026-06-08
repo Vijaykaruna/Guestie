@@ -25,14 +25,14 @@ const Guest = () => {
       <header className="guest-topbar container">
         <a href="#" className="guest-brand">
           <img src={logo} alt="Hotel logo" />
-          <span>{guest.hotelDetails?.hotel || "Guest Food Ordering"}</span>
+          <span className="text-danger p-2 rounded-2 shadow-sm">{guest.hotelDetails?.hotel || "Guest Food Ordering"}</span>
         </a>
         <div className="guest-actions">
-          <button className="guest-icon-btn" onClick={guest.handlefetchOrderList} title="My orders">
+          <button className="guest-icon-btn shadow-lg" onClick={guest.handlefetchOrderList} title="My orders">
             <FaShoppingCart />
             {guest.cartCount > 0 && <span className="guest-badge">{guest.cartCount}</span>}
           </button>
-          <button className="guest-outline-btn" onClick={() => guest.openFeedbackModal("Report")}>
+          <button className="guest-outline-btn shadow-sm" onClick={() => guest.openFeedbackModal("Report")}>
             <MdReportProblem /> Report
           </button>
         </div>

@@ -54,6 +54,7 @@ export const useMainPage = ({ useAuthentication }) => {
 
       setLink(url);
       hideLoading();
+      setShowQR(true);
     }, 700);
   };
 

@@ -19,7 +19,7 @@ const MainNavbar = ({ useMain, hotelControl }) => {
       <div className="d-flex me-lg-5 my-3 gap-lg-5 gap-4 align-items-center">
         <div>
           {link === null ? (
-            <button className="btn btn-sm rounded-5 btn-outline-danger fw-bold" onClick={getQRCode}>Get QR</button>
+            <button className="btn btn-sm rounded-2 btn-outline-danger fw-bold p-2" onClick={getQRCode}>Get QR</button>
           ) : (
             <button className="btn btn-sm border py-2">
               <IoQrCodeSharp className="fs-3" onClick={() => setShowQR(true)} />
