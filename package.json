@@ -1,0 +1,14 @@
+{
+  "name": "smart-hotel-food-ordering-system",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "install:all": "npm --prefix Client install && npm --prefix Server install && npm --prefix Guest install",
+    "build": "npm --prefix Client run build",
+    "start": "npm --prefix Server start",
+    "dev:server": "npm --prefix Server run dev",
+    "dev:client": "npm --prefix Client run dev",
+    "dev:guest": "npm --prefix Guest run dev"
+  }
+}
