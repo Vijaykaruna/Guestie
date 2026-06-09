@@ -4,7 +4,12 @@ import { publicGuestController } from "../controller/public.guest.controller.js"
 export const useGuest = (userId) => {
   const guestControl = useMemo(() => publicGuestController(userId), [userId]);
 
-  const [listCategory, setListCategory] = useState({ breakFast: [], lunch: [], dinner: [], refreshment: [] });
+  const [listCategory, setListCategory] = useState({
+    breakFast: [],
+    lunch: [],
+    dinner: [],
+    refreshment: [],
+  });
   const [hotelDetails, setHotelDetails] = useState(null);
   const [guestDetails, setGuestDetails] = useState(null);
   const [guestOrderList, setGuestOrderList] = useState([]);
@@ -38,12 +43,16 @@ export const useGuest = (userId) => {
 
   const fetchGetFoods = async () => {
     const foodList = await guestControl.getFoodsByUser();
-    const availableFoods = foodList.filter((food) => food.isAvailable !== false);
+    const availableFoods = foodList.filter(
+      (food) => food.isAvailable !== false,
+    );
     setListCategory({
       breakFast: availableFoods.filter((food) => food.category === "BreakFast"),
       lunch: availableFoods.filter((food) => food.category === "Lunch"),
       dinner: availableFoods.filter((food) => food.category === "Dinner"),
-      refreshment: availableFoods.filter((food) => food.category === "Refreshment"),
+      refreshment: availableFoods.filter(
+        (food) => food.category === "Refreshment",
+      ),
     });
   };
 
@@ -70,17 +79,31 @@ export const useGuest = (userId) => {
   }, [userId]);
 
   useEffect(() => {
-    const total = Object.values(cart).reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+    const total = Object.values(cart).reduce(
+      (sum, item) => sum + Number(item.price) * item.quantity,
+      0,
+    );
     setTotalAmount(total);
   }, [cart]);
 
+  useEffect(() => {
+    if (selectRoom === 0) return;
+    setGuestVerification(false);
+    setGuestDetails(null);
+  }, [selectRoom]);
+
   const getActiveFoods = (currentCategory) => {
     switch (currentCategory) {
-      case "BreakFast": return listCategory.breakFast;
-      case "Lunch": return listCategory.lunch;
-      case "Dinner": return listCategory.dinner;
-      case "Refreshment": return listCategory.refreshment;
-      default: return [];
+      case "BreakFast":
+        return listCategory.breakFast;
+      case "Lunch":
+        return listCategory.lunch;
+      case "Dinner":
+        return listCategory.dinner;
+      case "Refreshment":
+        return listCategory.refreshment;
+      default:
+        return [];
     }
   };
 
@@ -124,7 +147,10 @@ export const useGuest = (userId) => {
   };
 
   const getQty = (id) => cart[id]?.quantity || 0;
-  const cartCount = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+  const cartCount = Object.values(cart).reduce(
+    (sum, item) => sum + item.quantity,
+    0,
+  );
 
   const handleGuestVerify = async (rooms, mobile) => {
     const cleanMobile = String(mobile || "").trim();
@@ -164,7 +190,11 @@ export const useGuest = (userId) => {
       showToast("danger", "Your cart is empty");
       return;
     }
-    const foodsArray = Object.values(cart).map((item) => ({ title: item.title, price: item.price, quantity: item.quantity }));
+    const foodsArray = Object.values(cart).map((item) => ({
+      title: item.title,
+      price: item.price,
+      quantity: item.quantity,
+    }));
     const orderPayload = {
       guestId: guestDetails._id,
       mobile: guestDetails.mobile,
@@ -212,7 +242,8 @@ export const useGuest = (userId) => {
 
   const handleGuestFeedback = async (comments) => {
     if (!guestDetails) return showToast("danger", "Please verify first");
-    if (!comments?.trim()) return showToast("danger", "Please enter your message");
+    if (!comments?.trim())
+      return showToast("danger", "Please enter your message");
     setIsLoading(true);
     const res = await guestControl.addGuestFeedback({
       guestId: guestDetails._id,
@@ -231,12 +262,47 @@ export const useGuest = (userId) => {
   };
 
   return {
-    category, hotelDetails, guestDetails, selectRoom, activeCategory, cart, cartCount, showAddBTN, showGuestVerify,
-    navigateCartPage, totalAmount, guestVerification, showAlertmentModal, guestOrderList, navigateOrderListPage,
-    showReportModal, feedbackType, orderPlaced, toast, isLoading,
-    setShowReportModal, setNavigateOrderListPage, setShowAlertmentModal, setTotalAmount, handlefetchOrderList,
-    setNavigateCartage, setShowGuestVerify, setGuestVerification, handleAddBTN, addToCart, increaseQty, decreaseQty,
-    setCart, getQty, setActiveCategory, setSelectRoom, getActiveFoods, handleGotoCartPage, handleGuestVerify,
-    handleGuestOrder, openFeedbackModal, handleGuestFeedback,
+    category,
+    hotelDetails,
+    guestDetails,
+    selectRoom,
+    activeCategory,
+    cart,
+    cartCount,
+    showAddBTN,
+    showGuestVerify,
+    navigateCartPage,
+    totalAmount,
+    guestVerification,
+    showAlertmentModal,
+    guestOrderList,
+    navigateOrderListPage,
+    showReportModal,
+    feedbackType,
+    orderPlaced,
+    toast,
+    isLoading,
+    setShowReportModal,
+    setNavigateOrderListPage,
+    setShowAlertmentModal,
+    setTotalAmount,
+    handlefetchOrderList,
+    setNavigateCartage,
+    setShowGuestVerify,
+    setGuestVerification,
+    handleAddBTN,
+    addToCart,
+    increaseQty,
+    decreaseQty,
+    setCart,
+    getQty,
+    setActiveCategory,
+    setSelectRoom,
+    getActiveFoods,
+    handleGotoCartPage,
+    handleGuestVerify,
+    handleGuestOrder,
+    openFeedbackModal,
+    handleGuestFeedback,
   };
 };
