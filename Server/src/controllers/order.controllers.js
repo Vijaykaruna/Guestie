@@ -68,3 +68,13 @@ export const updateStatus = async (req, res) => {
     res.status(500).json({ message: "Failed to update status" });
   }
 };
+export const deleteOrders = async (req, res) => {
+  const userId = req.user.id;
+  const { ids } = req.body; // array of order IDs
+  try {
+    await OrderListModel.deleteMany({ _id: { $in: ids }, userId });
+    res.status(200).json({ message: "Orders deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Failed to delete orders" });
+  }
+};

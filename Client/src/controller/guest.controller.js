@@ -10,7 +10,10 @@ export const guestController = ({ triggerToast }) => {
       const res = await api.get("/guest/guests");
       return res.data;
     } catch (err) {
-      triggerToast({ type: "danger", message: err.response?.data?.message || "Failed to load guests" });
+      triggerToast({
+        type: "danger",
+        message: err.response?.data?.message || "Failed to load guests",
+      });
       return [];
     } finally {
       hideLoading();
@@ -23,7 +26,10 @@ export const guestController = ({ triggerToast }) => {
       const res = await api.get("/guest/guestWithInvoice");
       return res.data;
     } catch (err) {
-      triggerToast({ type: "danger", message: err.response?.data?.message || "Failed to load invoice data" });
+      triggerToast({
+        type: "danger",
+        message: err.response?.data?.message || "Failed to load invoice data",
+      });
       return [];
     } finally {
       hideLoading();
@@ -37,7 +43,11 @@ export const guestController = ({ triggerToast }) => {
       triggerToast({ type: "success", message: res.data.message });
       await getInvoiceGuests();
     } catch (err) {
-      triggerToast({ type: "danger", message: err.response?.data?.message || "Failed to update payment status" });
+      triggerToast({
+        type: "danger",
+        message:
+          err.response?.data?.message || "Failed to update payment status",
+      });
     } finally {
       hideLoading();
     }
@@ -49,7 +59,10 @@ export const guestController = ({ triggerToast }) => {
       const res = await api.patch(`/guest/updateStayStatus/${guestId}`);
       triggerToast({ type: "success", message: res.data.message });
     } catch (err) {
-      triggerToast({ type: "danger", message: err.response?.data?.message || "Failed to update stay status" });
+      triggerToast({
+        type: "danger",
+        message: err.response?.data?.message || "Failed to update stay status",
+      });
     } finally {
       hideLoading();
     }
@@ -70,10 +83,16 @@ export const guestController = ({ triggerToast }) => {
         amount: guestDetails.amount,
         payment: guestDetails.payment,
       });
-      triggerToast({ type: "success", message: res.data?.message || "Added new guest successfully" });
+      triggerToast({
+        type: "success",
+        message: res.data?.message || "Added new guest successfully",
+      });
       return true;
     } catch (error) {
-      triggerToast({ type: "danger", message: error.response?.data?.message || "Failed to load guests" });
+      triggerToast({
+        type: "danger",
+        message: error.response?.data?.message || "Failed to load guests",
+      });
       return false;
     } finally {
       hideLoading();
@@ -85,10 +104,36 @@ export const guestController = ({ triggerToast }) => {
     showLoading("Deleting guest and all related data...");
     try {
       const res = await api.delete(`/guest/deleteGuest/${guestId}`);
-      (toast || triggerToast)({ type: "success", message: res.data?.message || "Guest deleted successfully" });
+      (toast || triggerToast)({
+        type: "success",
+        message: res.data?.message || "Guest deleted successfully",
+      });
       return true;
     } catch (err) {
-      (toast || triggerToast)({ type: "danger", message: err.response?.data?.message || "Failed to delete guest" });
+      (toast || triggerToast)({
+        type: "danger",
+        message: err.response?.data?.message || "Failed to delete guest",
+      });
+      return false;
+    } finally {
+      hideLoading();
+    }
+  };
+
+  const deleteGuest = async (guestId) => {
+    showLoading("Deleting invoice record...");
+    try {
+      const res = await api.delete(`/guest/deleteGuest/${guestId}`);
+      triggerToast({
+        type: "success",
+        message: res.data?.message || "Deleted successfully",
+      });
+      return true;
+    } catch (err) {
+      triggerToast({
+        type: "danger",
+        message: err.response?.data?.message || "Failed to delete",
+      });
       return false;
     } finally {
       hideLoading();
@@ -102,5 +147,6 @@ export const guestController = ({ triggerToast }) => {
     updateStayStatus,
     addnewGuest,
     deleteGuestAllData,
+    deleteGuest,
   };
 };

@@ -10,10 +10,7 @@ export const orderController = ({ triggerToast }) => {
       const orders = await api.get("/order/ordersList");
       return orders.data;
     } catch (err) {
-      triggerToast({
-        type: "danger",
-        message: err.response?.data?.message,
-      });
+      triggerToast({ type: "danger", message: err.response?.data?.message });
       return null;
     } finally {
       hideLoading();
@@ -28,20 +25,28 @@ export const orderController = ({ triggerToast }) => {
         { status, rejectionReason },
         { params: { _id: orderId } },
       );
-      triggerToast({
-        type: "success",
-        message: "Successfully updated",
-      });
+      triggerToast({ type: "success", message: "Successfully updated" });
       await getOrdersList();
     } catch (error) {
-      triggerToast({
-        type: "danger",
-        message: error.response?.data?.message || "Failed to update",
-      });
+      triggerToast({ type: "danger", message: error.response?.data?.message || "Failed to update" });
     } finally {
       hideLoading();
     }
   };
 
-  return { getOrdersList, updateOrderStatusById };
+  const deleteOrders = async (ids) => {
+    showLoading("Deleting orders...");
+    try {
+      const res = await api.delete("/order/deleteOrders", { data: { ids } });
+      triggerToast({ type: "success", message: res.data?.message || "Deleted successfully" });
+      return true;
+    } catch (err) {
+      triggerToast({ type: "danger", message: err.response?.data?.message || "Failed to delete" });
+      return false;
+    } finally {
+      hideLoading();
+    }
+  };
+
+  return { getOrdersList, updateOrderStatusById, deleteOrders };
 };
