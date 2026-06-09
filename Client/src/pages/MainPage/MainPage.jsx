@@ -26,101 +26,90 @@ import QRModal from "../../components/ModalQR.jsx";
 
 const MainPage = () => {
   const useAuthentication = useAuth();
-
   const useMain = useMainPage({ useAuthentication });
-
   const { isLoading } = useLoading();
-
   const { triggerToast } = useToast();
 
   const authControl = authController({ triggerToast });
-
   const hotelControl = hotelController({ triggerToast });
-
   const orderControl = orderController({ triggerToast });
-
   const foodControl = foodController({ triggerToast });
-
   const reviewControl = reviewController({ triggerToast });
-
   const guestControl = guestController({ triggerToast });
+
+  const { activeLink, menuItems, handleMenu, refreshTick } = useMain;
 
   return (
     <div className={isLoading ? "blur-ui" : ""}>
       <div className="container-fluid admin-shell">
         <MainNavbar useMain={useMain} hotelControl={hotelControl} />
         <div className="row flex-nowrap admin-layout">
-          <aside className="admin-sidebar">
+
+          {/* Sidebar — visible on tablet/laptop only */}
+          <aside className="admin-sidebar d-none d-md-block">
             <div className="d-flex flex-column align-items-center align-items-sm-start px-2 px-sm-3 pt-3 min-vh-100">
               <div className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-stretch w-100 gap-2">
-                {useMain.menuItems.map(({ href, img, label }) => (
+                {menuItems.map(({ href, img, label }) => (
                   <a
                     key={href}
                     href={href}
-                    className={`nav-link align-middle shadow-sm main-item ${
-                      useMain.activeLink === href ? "active" : ""
-                    }`}
+                    className={`nav-link align-middle shadow-sm main-item ${activeLink === href ? "active" : ""}`}
                     onClick={(e) => {
                       e.preventDefault();
-                      useMain.handleMenu(href);
+                      handleMenu(href);
                     }}
                   >
-                    <img
-                      src={img}
-                      alt={`${label.toLowerCase()} icon`}
-                      className="sidebar-icon"
-                    />
+                    <img src={img} alt={`${label.toLowerCase()} icon`} className="sidebar-icon" />
                     <span className="ms-1 d-none d-sm-inline">{label}</span>
                   </a>
                 ))}
               </div>
             </div>
           </aside>
-          <main className="admin-main py-3">
-            {useMain.activeLink === "#dashboard" && (
-              <Dashboard
-                hotelControl={hotelControl}
-                orderControl={orderControl}
-                triggerToast={triggerToast}
-              />
+
+          {/* Main content */}
+          <main className="admin-main py-3 pb-md-3 pb-5">
+            {activeLink === "#dashboard" && (
+              <Dashboard hotelControl={hotelControl} orderControl={orderControl} triggerToast={triggerToast} refreshTick={refreshTick} />
+            )}
+            {activeLink === "#foods" && (
+              <FoodPage foodControl={foodControl} refreshTick={refreshTick} />
+            )}
+            {activeLink === "#review" && (
+              <ReviewPage reviewControl={reviewControl} refreshTick={refreshTick} />
+            )}
+            {activeLink === "#orderList" && (
+              <OrderPage orderControl={orderControl} refreshTick={refreshTick} />
+            )}
+            {activeLink === "#invoice" && (
+              <InvoicePage guestControl={guestControl} refreshTick={refreshTick} />
+            )}
+            {activeLink === "#guest" && (
+              <GuestPage guestControl={guestControl} triggerToast={triggerToast} refreshTick={refreshTick} />
+            )}
+            {activeLink === "#subcription" && (
+              <Hotel hotelControl={hotelControl} useAuth={useAuthentication} refreshTick={refreshTick} />
             )}
 
-            {useMain.activeLink === "#foods" && (
-              <FoodPage foodControl={foodControl} />
-            )}
-
-            {useMain.activeLink === "#review" && (
-              <ReviewPage reviewControl={reviewControl} />
-            )}
-
-            {useMain.activeLink === "#orderList" && (
-              <OrderPage orderControl={orderControl} />
-            )}
-
-            {useMain.activeLink === "#invoice" && (
-              <InvoicePage guestControl={guestControl} />
-            )}
-            {useMain.activeLink === "#guest" && (
-              <GuestPage
-                guestControl={guestControl}
-                triggerToast={triggerToast}
-              />
-            )}
-
-            {useMain.activeLink === "#subcription" && (
-              <Hotel hotelControl={hotelControl} useAuth={useAuthentication} />
-            )}
-
-            <MainOffCanvas
-              useMain={useMain}
-              hotelControl={hotelControl}
-              authControl={authControl}
-            />
+            <MainOffCanvas useMain={useMain} hotelControl={hotelControl} authControl={authControl} />
             <MainModalUser useMain={useMain} hotelControl={hotelControl} />
-
             <QRModal useMain={useMain} />
           </main>
         </div>
+
+        {/* Bottom Navigation — mobile only */}
+        <nav className="mobile-bottom-nav d-flex d-md-none">
+          {menuItems.map(({ href, img, label }) => (
+            <button
+              key={href}
+              className={`mobile-bottom-item ${activeLink === href ? "active" : ""}`}
+              onClick={() => handleMenu(href)}
+            >
+              <img src={img} alt={label} className="mobile-bottom-icon" />
+              <span className="mobile-bottom-label">{label}</span>
+            </button>
+          ))}
+        </nav>
       </div>
     </div>
   );

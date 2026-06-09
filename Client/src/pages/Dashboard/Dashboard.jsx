@@ -35,7 +35,7 @@ const Dashboard = ({ hotelControl, orderControl, triggerToast }) => {
           ({ title, img, values, label, color }, index) => (
             <div
               key={index}
-              className="rounded-2 col-lg-3 py-2 bg-light shadow-lg"
+              className="rounded-2 col-lg-3 py-2 bg-light border border-danger rounded-5 shadow-lg"
             >
               <div className="d-flex justify-content-around align-items-center">
                 <p className="fs-5 text-secondary">{title}</p>

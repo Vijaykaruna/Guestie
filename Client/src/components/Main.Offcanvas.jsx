@@ -40,11 +40,11 @@ const MainOffCanvas = ({ useMain, hotelControl, authControl }) => {
         </div>
         {hotelDetails ? (
           <div key={hotelDetails.userId}>
-            <p>Name: {hotelDetails.user}</p>
-            <p>Email: {hotelDetails.email}</p>
-            <p>Mobile: {hotelDetails.mobile}</p>
-            <p>Hotel Name: {hotelDetails.hotel}</p>
-            <p>Address: {hotelDetails.address}</p>
+            <p> <span className="text-danger fw-bold">Name:</span> {hotelDetails.user}</p>
+            <p> <span className="text-danger fw-bold">Email:</span> {hotelDetails.email}</p>
+            <p> <span className="text-danger fw-bold">Mobile:</span> {hotelDetails.mobile}</p>
+            <p> <span className="text-danger fw-bold">Hotel Name:</span> {hotelDetails.hotel}</p>
+            <p> <span className="text-danger fw-bold">Address:</span> {hotelDetails.address}</p>
           </div>
         ) : (
           <div className="text-center text-secondary my-4">

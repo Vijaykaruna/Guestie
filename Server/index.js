@@ -12,6 +12,7 @@ import guestRoutes from "./src/routes/guest.routes.js";
 import orderRoutes from "./src/routes/order.routes.js";
 import reviewRoutes from "./src/routes/review.routes.js";
 import { connectDB } from "./src/lib/db.js";
+import { checkAndDeactivateSubscriptions } from "./src/lib/subscriptionCron.js";
 
 dotenv.config();
 
@@ -59,6 +60,10 @@ connectDB()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server running on port: ${PORT}`);
+
+      // Run subscription check immediately on startup, then every hour
+      checkAndDeactivateSubscriptions();
+      setInterval(checkAndDeactivateSubscriptions, 60 * 60 * 1000);
     });
   })
   .catch((err) => {

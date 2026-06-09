@@ -33,5 +33,6 @@ export const useGuestPage = ({ guestControl }) => {
     handleUpdateStay,
     setShowAddGuestModal,
     handleAddnewGuest,
+    loadGuests,
   };
 };

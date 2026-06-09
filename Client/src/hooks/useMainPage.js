@@ -6,7 +6,7 @@ import order from "../assets/orderList-icon.png";
 import rooms from "../assets/bed.png";
 import G_Letter from "../assets/gold.png";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLoading } from "../service/LoadingProvider";
 
 export const useMainPage = ({ useAuthentication }) => {
@@ -31,6 +31,20 @@ export const useMainPage = ({ useAuthentication }) => {
   const [link, setLink] = useState(null);
   const [showQR, setShowQR] = useState(false);
   const [activeLink, setActiveLink] = useState("#dashboard");
+  const [refreshTick, setRefreshTick] = useState(0);
+
+  // Auto-refresh every 30 seconds
+  const refreshTimerRef = useRef(null);
+  useEffect(() => {
+    refreshTimerRef.current = setInterval(() => {
+      setRefreshTick((t) => t + 1);
+    }, 30000);
+    return () => clearInterval(refreshTimerRef.current);
+  }, []);
+
+  const handleManualRefresh = () => {
+    setRefreshTick((t) => t + 1);
+  };
 
   const handleMenu = (href) => {
     setActiveLink(href);
@@ -66,11 +80,13 @@ export const useMainPage = ({ useAuthentication }) => {
     showModalUser,
     showQR,
     link,
+    refreshTick,
     getQRCode,
     setShowQR,
     setShowOffcanvas,
     setShowModalUser,
     handleMenu,
+    handleManualRefresh,
     logout,
   };
 };

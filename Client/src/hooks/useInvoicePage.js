@@ -20,7 +20,7 @@ export const useInvoicePage = ({ guestControl, openModal }) => {
 
   const showAlertPaymentStatus = (guestId) => {
     const guest = guestDetailsList.find((a) => a._id === guestId);
-    if(!guest) return;
+    if (!guest) return;
     setSelectedGuest(guest);
   };
 
@@ -33,6 +33,7 @@ export const useInvoicePage = ({ guestControl, openModal }) => {
   return {
     guestDetailsList,
     selectedGuest,
+    loadGuests,
     showOrderedListById,
     showAlertPaymentStatus,
     markAsPaid,

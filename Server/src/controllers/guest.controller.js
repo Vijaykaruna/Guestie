@@ -336,3 +336,20 @@ export const getGuestOrderFoods = async (req, res) => {
   }
 };
 
+export const deleteGuestAllData = async (req, res) => {
+  const userId = req.user.id;
+  const guestId = req.params.guestId;
+  try {
+    // Delete all orders of this guest
+    await OrderListModel.deleteMany({ guestId, userId });
+    // Delete the guest record
+    const deletedGuest = await GuestModel.findOneAndDelete({ _id: guestId, userId });
+    if (!deletedGuest) {
+      return res.status(404).json({ message: "Guest not found" });
+    }
+    res.status(200).json({ message: "Guest and all related data deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to delete guest data" });
+  }
+};

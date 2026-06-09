@@ -11,6 +11,7 @@ import {
   getFoodsByUser,
   addOrderFood,
   getGuestOrderFoods,
+  deleteGuestAllData,
 } from "../controllers/guest.controller.js";
 
 const guestRoutes = express.Router();
@@ -21,6 +22,7 @@ guestRoutes.get("/guests", verifyToken, guestList);
 guestRoutes.patch("/updateStayStatus/:guestId", verifyToken, updateStay);
 guestRoutes.patch("/updatePaymentStatus/:guestId", verifyToken, paymentStatus);
 guestRoutes.get("/guestWithInvoice", verifyToken, getInvoiceGuests);
+guestRoutes.delete("/deleteGuest/:guestId", verifyToken, deleteGuestAllData);
 
 // Without user verification
 guestRoutes.post("/guest/:userId", guestDetails);
