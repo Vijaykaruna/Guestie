@@ -2,16 +2,19 @@
 node_modules/
 Client/node_modules/
 Server/node_modules/
+Guest/node_modules/
 
 # Build outputs
 Client/dist/
 Server/dist/
+Guest/dist/
 dist/
 
 # Environment files
 .env
 Client/.env
 Server/.env
+Guest/.env
 
 # Logs
 npm-debug.log*

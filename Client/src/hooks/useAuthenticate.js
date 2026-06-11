@@ -4,7 +4,6 @@ import { useToast } from "../service/ToastProvider.jsx";
 
 export const useSignUp = () => {
   const { triggerToast } = useToast();
-
   const { signup } = authController({ triggerToast });
 
   const [name, setName] = useState("");
@@ -43,15 +42,11 @@ export const useSignUp = () => {
     signup({ name, email, password });
   };
 
-  return {
-    formFields,
-    handleSignup,
-  };
+  return { formFields, handleSignup };
 };
 
 export const useLogIn = () => {
   const { triggerToast } = useToast();
-
   const { login } = authController({ triggerToast });
 
   const [email, setEmail] = useState("");
@@ -81,8 +76,5 @@ export const useLogIn = () => {
     login({ email, password });
   };
 
-  return {
-    formFields,
-    handleLogin,
-  };
+  return { formFields, handleLogin };
 };

@@ -88,7 +88,7 @@ const MainPage = () => {
               <GuestPage guestControl={guestControl} triggerToast={triggerToast} refreshTick={refreshTick} />
             )}
             {activeLink === "#subcription" && (
-              <Hotel hotelControl={hotelControl} useAuth={useAuthentication} refreshTick={refreshTick} />
+              <Hotel hotelControl={hotelControl} useAuth={useAuthentication} refreshTick={refreshTick} onEditProfile={() => useMain.setShowModalUser(true)} />
             )}
 
             <MainOffCanvas useMain={useMain} hotelControl={hotelControl} authControl={authControl} />

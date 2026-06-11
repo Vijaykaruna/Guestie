@@ -4,7 +4,6 @@ import { useLoading } from "../service/LoadingProvider.jsx";
 
 export const authController = ({ triggerToast } = {}) => {
   const { navigateToMain, navigateToLogIn } = useNavigation();
-
   const { showLoading, hideLoading } = useLoading();
 
   const login = async ({ email, password }) => {
@@ -13,18 +12,11 @@ export const authController = ({ triggerToast } = {}) => {
       const res = await api.post("/auth/login", { email, password });
       if (res.status === 200) {
         localStorage.setItem("token", res.data.token);
-        triggerToast({
-          type: "success",
-          message: res.data.message || "Logged in Successfully",
-        });
-
+        triggerToast({ type: "success", message: res.data.message || "Logged in Successfully" });
         navigateToMain();
       }
     } catch (err) {
-      triggerToast({
-        type: "danger",
-        message: err.response?.data?.message || "Login failed",
-      });
+      triggerToast({ type: "danger", message: err.response?.data?.message || "Login failed" });
     } finally {
       hideLoading();
     }
@@ -35,17 +27,11 @@ export const authController = ({ triggerToast } = {}) => {
     try {
       const res = await api.post("/auth/signup", { name, email, password });
       if (res.status === 200) {
-        triggerToast({
-          type: "success",
-          message: "Account created Successfully",
-        });
+        triggerToast({ type: "success", message: "Account created Successfully" });
         navigateToLogIn();
       }
     } catch (err) {
-      triggerToast({
-        type: "danger",
-        message: err.response?.data?.message || "Signup failed",
-      });
+      triggerToast({ type: "danger", message: err.response?.data?.message || "Signup failed" });
     } finally {
       hideLoading();
     }
@@ -55,23 +41,13 @@ export const authController = ({ triggerToast } = {}) => {
     showLoading("Logging out...");
     try {
       const res = await api.post("/auth/logout");
-      triggerToast({
-        type: "success",
-        message: res.data.message || "Logged out successfully",
-      });
-    } catch (err) {
-      triggerToast({
-        type: "danger",
-        message: "Logout failed",
-      });
+      triggerToast({ type: "success", message: res.data.message || "Logged out successfully" });
+    } catch {
+      triggerToast({ type: "danger", message: "Logout failed" });
     } finally {
       hideLoading();
     }
   };
 
-  return {
-    login,
-    signup,
-    logout,
-  };
+  return { login, signup, logout };
 };
